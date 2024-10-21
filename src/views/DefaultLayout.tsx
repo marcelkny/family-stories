@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-import Footer from "../components/layout/Footer";
 import Header from "../components/layout/Header";
+import Footer from "../components/layout/Footer";
+import { LoadingScreen } from "../components/layout/LoadingScreen";
 import { useLoadingContext } from "../context/LoadingContext";
+import { useCallback, useEffect, useState } from "react";
+import { BottomSlideMenu } from "../components/layout/BottomSlideMenu";
 export default function DefaultLayout() {
     const [loadingContext] = useLoadingContext();
     const [loadingState, setLoading] = useState<boolean>(true);
@@ -18,13 +20,17 @@ export default function DefaultLayout() {
 
     return (
         <div>
-            <div></div>
+            <div>
+                
+            </div>
 
             <div className="flex flex-col h-screen justify-between">
                 <header>
                     <Header />
                 </header>
-                <main className="w-full flex-shrink-0 flex-grow mx-auto bg-slate-800 px-2">‚
+                <main className="w-full flex-shrink-0 flex-grow mx-auto bg-slate-800 px-2">
+                    {loadingState === true ? <LoadingScreen /> : undefined}
+
                     <Outlet />
                 </main>
                 <footer>

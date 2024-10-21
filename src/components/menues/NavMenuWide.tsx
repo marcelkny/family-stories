@@ -37,7 +37,7 @@ export default function NavMenuWide() {
                 ) : (
                     <div>
                         <button onClick={handleOpen}>
-                            <MenuIcon dimensions="w-8 h-8" color="white" />
+                            <MenuIcon />
                         </button>
                         {open === true ? (
                             <div>

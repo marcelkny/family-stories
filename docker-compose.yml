@@ -1,0 +1,49 @@
+services:
+  vite_docker:
+    build:
+      context: ./.docker
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 8097:8080
+    volumes:
+      - ".:/app"
+    environment:
+      - VITE_APP_BACKEND_ADDRESS=http://localhost/api
+    networks:
+      - app-net 
+    env_file:
+      - postgres.env
+
+  ## Database
+  postgres:
+    image: postgres:14.4-alpine
+    restart: always
+    env_file:
+      - postgres.env
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-net 
+
+  postgres-pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "127.0.0.1:8098:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - app-net
+    env_file:
+      - postgres-pgadmin.env
+
+networks:
+  app-net:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  pgadmin-data:
